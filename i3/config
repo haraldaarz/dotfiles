@@ -1,23 +1,35 @@
-# ThinkBoy
+# i3 config
 
-for_window [class="ksnip"] floating enable
-
-#Set mod key
 set $mod Mod4
 
-#Configure border style
+# Border style
 new_window pixel 2
 new_float normal
-
-
-# Hide Borders
-hide_edge_borders none
-
+#hide_edge_borders none
+hide_edge_borders smart
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
 font pango:monospace 8
 
+# Start XDG autostart .desktop files using dex. See also
+# https://wiki.archlinux.org/index.php/XDG_Autostart
+exec --no-startup-id dex --autostart --environment i3
+
+# xss-lock grabs a logind suspend inhibit lock and will use i3lock to lock the
+# screen before suspend. Use loginctl lock-session to lock your screen.
+exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
+
+# NetworkManager is the most popular way to manage wireless networks on Linux,
+# and nm-applet is a desktop environment-independent system tray GUI for it.
+exec --no-startup-id nm-applet
+
+# Use pactl to adjust volume in PulseAudio.
+set $refresh_i3status killall -SIGUSR1 i3status
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
+bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
@@ -28,10 +40,14 @@ bindsym $mod+Return exec alacritty
 # kill focused window
 bindsym $mod+Shift+q kill
 
+# start dmenu (a program launcher)
+bindsym $mod+d exec --no-startup-id rofi -show drun -theme .config/rofi/launchers/type-4/style-4.rasi
 
-# bindsym $mod+d exec --no-startup-id dmenu
-
-bindsym $mod+d exec --no-startup-id rofi   -combi-modi drun -show combi -font "Inconsolata 9"
+# change focus
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
 
 # alternatively, you can use the cursor keys:
 bindsym $mod+Left focus left
@@ -39,40 +55,31 @@ bindsym $mod+Down focus down
 bindsym $mod+Up focus up
 bindsym $mod+Right focus right
 
+# move focused window
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
+
 # alternatively, you can use the cursor keys:
 bindsym $mod+Shift+Left move left
 bindsym $mod+Shift+Down move down
 bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
 
-# workspace back and forth (with/without active container)
-workspace_auto_back_and_forth yes
-bindsym $mod+b workspace back_and_forth
-bindsym $mod+Shift+b move container to workspace back_and_forth; workspace back_and_fo>
-
-
 # split in horizontal orientation
-bindsym $mod+h split h
+bindsym $mod+i split h
 
 # split in vertical orientation
 bindsym $mod+v split v
 
 # enter fullscreen mode for the focused container
-bindsym $mod+Shift+f fullscreen toggle
-
-# Open Firefox
-bindsym $mod+f exec firefox-developer-edition
-#bindsym $mod+f exec firefox-nightly
-
-# File manager
-bindsym $mod+F3 exec caja
-bindsym $mod+Control+F3 exec  --no-startup-id urxvt -e 'ranger'
-
+#bindsym $mod+f fullscreen toggle
 
 # change container layout (stacked, tabbed, toggle split)
-# bindsym $mod+s layout stacking
-# bindsym $mod+w layout tabbed
- bindsym $mod+e layout toggle split
+#bindsym $mod+s layout stacking
+#bindsym $mod+w layout tabbed
+#bindsym $mod+e layout toggle split
 
 # toggle tiling / floating
 bindsym $mod+Shift+space floating toggle
@@ -82,6 +89,9 @@ bindsym $mod+space focus mode_toggle
 
 # focus the parent container
 bindsym $mod+a focus parent
+
+# focus the child container
+#bindsym $mod+d focus child
 
 
 # Define names for default workspaces for which we configure key bindings later on.
@@ -108,16 +118,16 @@ set $ws19 "19"
 set $ws20 "20"
 
 # switch to workspace
-bindsym $mod+1 workspace $ws1
-bindsym $mod+2 workspace $ws2
-bindsym $mod+3 workspace $ws3
-bindsym $mod+4 workspace $ws4
-bindsym $mod+5 workspace $ws5
-bindsym $mod+6 workspace $ws6
-bindsym $mod+7 workspace $ws7
-bindsym $mod+8 workspace $ws8
-bindsym $mod+9 workspace $ws9
-bindsym $mod+0 workspace $ws10
+bindsym $mod+1 workspace number 1
+bindsym $mod+2 workspace number 2
+bindsym $mod+3 workspace number 3
+bindsym $mod+4 workspace number 4
+bindsym $mod+5 workspace number 5
+bindsym $mod+6 workspace number 6
+bindsym $mod+7 workspace number 7
+bindsym $mod+8 workspace number 8
+bindsym $mod+9 workspace number 9
+bindsym $mod+0 workspace number 10
 bindsym $mod+Control+1 workspace $ws11
 bindsym $mod+Control+2 workspace $ws12
 bindsym $mod+Control+3 workspace $ws13
@@ -131,10 +141,10 @@ bindsym $mod+Control+0 workspace $ws20
 
 
 # Move focused container to workspace
-bindsym $mod+Shift+1 move container to workspace $ws1; workspace $ws1
-bindsym $mod+Shift+2 move container to workspace $ws2; workspace $ws2
-bindsym $mod+Shift+3 move container to workspace $ws3; workspace $ws3
-bindsym $mod+Shift+4 move container to workspace $ws4; workspace $ws4
+bindsym $mod+Shift+1 move container to workspace number 1; workspace number 1
+bindsym $mod+Shift+2 move container to workspace number 2; workspace number 2
+bindsym $mod+Shift+3 move container to workspace number 3; workspace number 3
+bindsym $mod+Shift+4 move container to workspace number 4; workspace number 4
 bindsym $mod+Shift+5 move container to workspace $ws5; workspace $ws5
 bindsym $mod+Shift+6 move container to workspace $ws6; workspace $ws6
 bindsym $mod+Shift+7 move container to workspace $ws7; workspace $ws7
@@ -152,7 +162,8 @@ bindsym $mod+Control+Shift+8 move container to workspace $ws18; workspace $ws18
 bindsym $mod+Control+Shift+9 move container to workspace $ws19; workspace $ws19
 bindsym $mod+Control+Shift+0 move container to workspace $ws20; workspace $ws20
 
-
+# reload the configuration file
+bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 bindsym $mod+Shift+r restart
 # exit i3 (logs you out of your X session)
@@ -160,6 +171,16 @@ bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcu
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
+        # These bindings trigger as soon as you enter the resize mode
+
+        # Pressing left will shrink the window’s width.
+        # Pressing right will grow the window’s width.
+        # Pressing up will shrink the window’s height.
+        # Pressing down will grow the window’s height.
+        bindsym j resize shrink width 10 px or 10 ppt
+        bindsym k resize grow height 10 px or 10 ppt
+        bindsym l resize shrink height 10 px or 10 ppt
+        bindsym oslash resize grow width 10 px or 10 ppt
 
         # same bindings, but for the arrow keys
         bindsym Left resize shrink width 10 px or 10 ppt
@@ -175,28 +196,22 @@ mode "resize" {
 
 bindsym $mod+r mode "resize"
 
-
-############################### i3bar ##########################3##### 
-
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
-# bar {
-#        status_command i3status
-#}
+bar {
+        # status_command i3status-rs
+        status_command i3status-rs ~/.config/i3status-rust/config.toml
+        font pango:monospace 9
+}
 
 
-##########################  Norsk keyboard  ###########################
+# Open Firefox
+bindsym $mod+f exec firefox-developer-edition
+
+# Norwegian keyboard
 exec setxkbmap -layout no
-
-
-##############################  i3Lock   ##############################
-
-bindsym $mod+l exec --no-startup-id i3lock-fancy-rapid 5 4
-
-
-
-################################# i3-gaps #############################
-#############################
+exec --no-startup-id setxkbmap -option caps:escape
+# i3-gaps
 
 # Set inner/outer gaps
 gaps inner 14
@@ -209,90 +224,41 @@ smart_gaps on
 # Smart borders
 smart_borders on
 
-# hide/unhide i3status bar
-# bindsym $mod+m bar mode toggle
-
-
-############################ Theme colors ##############################
-# class                   border  backgr. text    indic.   child_border
-# client.placeholder      #191A1D #191A1D #191A1D
-# client.background       #191A1D #191A1D #191A1D
+# Theme
 
 client.placeholder      #101010 #101010 #101010
 client.background       #101010 #101010 #101010
-
-
-client.focused 		#A9A9A9 #A9A9A9 #A9A9A9 #A9A9A9
+client.focused 		    #A9A9A9 #A9A9A9 #A9A9A9 #A9A9A9
 client.unfocused        #4A4A4A #222222 #aaaaaa #222222
 client.focused_inactive #4A4A4A #222222 #a9a9a9 #222222
 client.urgent           #4A4A4A #4A4A4A #f7f7f7 #4A4A4A
-
 client.background       #101010
 
 
-############################  Audio keybind  ###########################
-# Mute button
-bindsym XF86AudioMute exec "pactl set-sink-mute 0 toggle"
-
-# Volume Plus
-bindsym XF86AudioRaiseVolume exec "pactl set-sink-volume 0 +5%"
-
-# Volume Minus
-bindsym XF86AudioLowerVolume exec "pactl set-sink-volume 0 -5%"
-
-# Mic Mute
-# bindsym XF86AudioMicMute exec 'pactl set-source-mute 1 toggle'
-
-bindsym XF86AudioPlay exec playerctl play-pause
-bindsym XF86AudioPause exec playerctl play-pause
-bindsym XF86AudioNext exec playerctl next
-bindsym XF86AudioPrev exec playerctl previous
-
-
-###############################   Dunst   ##############################
-exec --no-startup-id dunst
-
-###############################  Polybar  #############################
-exec polybar main
-
-
-########################   Pamac authentication  ######################
-exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 & eval $(gnome-keyring-daemon -s --components=pkcs11,secrets,ssh,gpg) &
-
-
-#############################   Brightness  ###########################
+# Monitor brightness
 bindsym XF86MonBrightnessUp exec xbacklight -inc 5 # increase screen brightness
 bindsym XF86MonBrightnessDown exec xbacklight -dec 5 # decrease screen brightness
 
+# Faster keyboard speed
+exec --no-startup-id xset r rate 250 50
 
-########## Firefox Kill Workaround (no kill on mod+q) #################
-bindsym Control+q exec /home/harald/documents/tweaks/firefox-ctrl-q-workaround/noctrlq.sh
+# Rofi Power menu
+bindsym $mod+p exec --no-startup-id ~/.config/rofi/powermenu/type-1/powermenu.sh
 
-
-########################## Screenshot #################################
-bindsym Control+Print exec --no-startup-id deepin-screenshot
-bindsym $mod+Print exec --no-startup-id deepin-screenshot
-bindsym Print exec --no-startup-id deepin-screenshot
-
-
-#################### Trackpad Invert Fix ###############################
-
-# exec xinput set-prop "DELL07E6:00 06CB:76AF Touchpad" "libinput Natural Scrolling Enabled" 1
-exec --no-startup-id synclient HorizEdgeScroll=1 VertEdgeScroll=1 VertScrollDelta=-111
-
-
-############################## Nitrogen ################################
-exec nitrogen --restore &
-
-############################## nm-applet ###############################
-exec --no-startup-id nm-applet --no-agent
+# i3lock
+bindsym $mod+Control+o exec i3lock --image /home/harald/Pictures/Backgrounds/firewatchblur.png
 
 
 
-################################# HTOP #################################
-bindsym Control+Mod1+Delete exec --no-startup-id urxvt -e 'htop'
+# Wallpaper
+exec --no-startup-id feh --bg-scale /home/harald/Pictures/Backgrounds/firewatch.jpg
 
+# Touchpad speed
+exec --no-startup-id xinput --set-prop 10 "libinput Accel Speed" 0 # Kan vurdere .02
+# exec --no-startup-id xinput --set-prop 10 "libinput Accel Profile Enabled" 1 0  # Disable mouse acceleration
 
+# Dunst
+exec --no-startup-id dunst
 
-############################## Thunderbird #############################
-# exec --no-startup-id thunderbird --headless
+# Auto rename workspace with icons
+exec_always ~/.config/i3/scripts/autoname_workspaces.py > /tmp/log.out 2>&1
