@@ -15,29 +15,31 @@ window:
 
 scrolling:
   multiplier: 1
+  history: 10000
 
 
 # Font configuration (changes require restart)
 font:
   # Normal (roman) font face
   normal:
-    family: MesloLGS NF
+    family: Meslo LG S DZ
 
     # The `style` can be specified to pick a specific face.
     style: Regular
 
   # Bold font face
   bold:
-    family: MesloLGS NF
+    family: Meslo LG S DZ
     style: Bold
 
   # Italic font face
   italic:
-    family: MesloLGS NF
+    family: Meslo LG S DZ
     style: Italic
 
   # Point size
-  size: 7.5
+  #size: 7.5
+  size: 6
 
   offset:
     x: 0
@@ -47,8 +49,6 @@ font:
     x: 0
     y: 0
 
-  use_thin_strokes: false
-
 # If `true`, bold text is drawn using the bright color variants.
 draw_bold_text_with_bright_colors: true
 
@@ -56,10 +56,11 @@ draw_bold_text_with_bright_colors: true
 colors:
   # Default colors
   primary:
-    background: '0x000000'
+    #background: '0x000000'
+    background: '0x101010'
     foreground: '0xeaeaea'
 
-  
+
 # Normal colors
   normal:
     black:   '0x282a2e'
@@ -82,7 +83,7 @@ colors:
     cyan:    '0x8abeb7'
     white:   '0xc5c8c6'
 
-  
+
   indexed_colors: []
 
 
@@ -91,7 +92,6 @@ visual_bell:
   animation: EaseOutExpo
   duration: 0
 
-background_opacity: 1.0
 
 selection:
   semantic_escape_chars: ",│`|:\"' ()[]{}<>\t"
