@@ -26,6 +26,9 @@ export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border'
 source /usr/share/fzf/key-bindings.zsh
 source /usr/share/fzf/completion.zsh
 
+bindkey '^[[1;5D' backward-word
+bindkey '^[[1;5C' forward-word
+
 # Plugins
 plugins=(
   fzf-tab # to turn it on and off: toggle-fzf-tab
@@ -37,5 +40,10 @@ plugins=(
 # Alias
 alias ls="ls --color"
 alias l="ls --color"
-alias i3c="vim .config/i3/config"
-alias exitnode="sudo tailscale set --exit-node=100.78.222.89"
+alias sl="ls --color"
+#alias vim="nvim"
+source /usr/share/zsh-theme-powerlevel10k/powerlevel10k.zsh-theme
+alias win="cd /mnt/c/Users/harald/"
+
+
+export PATH="$HOME/.local/bin:$PATH"
